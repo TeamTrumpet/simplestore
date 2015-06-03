@@ -22,8 +22,27 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/* delete all the docs */
+router.delete('/', function(req, res, next) {
+  Document.remove({ _username: req.user.username }, function(err) {
+    if (err) {
+      console.error("There was an error deleting the docuemnts:", JSON.stringify(err));
+
+      // send to error handlers
+      next(err);
+
+      return;
+    }
+
+    // send a 204 and end
+    res.status(204).end();
+
+    return;
+  });
+});
+
 /* retrieve a doc. */
-router.get('/:id', function(req, res) {
+router.get('/:id', function(req, res, next) {
   var id = req.params.id;
 
   Document.findOne({id: id, _username: req.user.username}, function(err, doc) {
@@ -51,7 +70,7 @@ router.get('/:id', function(req, res) {
 });
 
 /* create a doc. */
-router.post('/', function(req, res) {
+router.post('/', function(req, res, next) {
   var data = req.body;
 
   var doc = new Document({
@@ -78,7 +97,7 @@ router.post('/', function(req, res) {
 });
 
 /* update a doc. */
-router.put('/:id', function(req, res) {
+router.put('/:id', function(req, res, next) {
   var id = req.params.id;
   var data = req.body;
 
@@ -107,7 +126,7 @@ router.put('/:id', function(req, res) {
 });
 
 /* delete a doc. */
-router.delete('/:id', function(req, res) {
+router.delete('/:id', function(req, res, next) {
   var id = req.params.id;
 
   Document.findOneAndRemove({ id: id, _username: req.user.username }, function(err, doc) {

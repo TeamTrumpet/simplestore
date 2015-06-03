@@ -3,6 +3,9 @@
 This API is served with Basic Authentication, valid credentials are required on
 all requests.
 
+All data is scoped to the current logged in user, so there is no risk of
+affecting other users's data by performing actions as yourself.
+
 # Group Document
 
 ## Documents [/]
@@ -42,6 +45,11 @@ Creates a new document.
                 "color": "blue"
               }
             }
+
+### Delete all documents [DELETE]
+Deletes all documents on database for the user.
+
++ Response 204
 
 ## Document [/{document_id}]
 
