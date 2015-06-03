@@ -20,4 +20,5 @@ sudo npm install -g aglio
 aglio -i docs/api.md -s
 ```
 
-And browse to http://localhost:3000 to view the documentation.
+And browse to [http://localhost:3000](http://localhost:3000) to view the
+documentation.
