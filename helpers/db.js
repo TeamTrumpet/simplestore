@@ -20,6 +20,8 @@ userSchema.methods.validPassword = function(password) {
 }
 
 var documentSchema = mongoose.Schema({
+  _username: String,
+
   id: String,
   data: Mixed
 })
@@ -28,8 +30,9 @@ documentSchema.methods.toJSON = function() {
   var obj = this.toObject()
 
   // remove hidden fields
-  delete obj._id
-  delete obj.__v
+  delete obj._username;
+  delete obj._id;
+  delete obj.__v;
 
   return obj
 }

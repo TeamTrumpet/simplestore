@@ -5,7 +5,7 @@ var Document = require('../helpers/db').Document;
 
 /* retrieve all docs. */
 router.get('/', function(req, res, next) {
-  Document.find(function(err, docs) {
+  Document.find({ _username: req.user.username }, function(err, docs) {
     if (err) {
       console.error("There was an error finding the docuemnts:", JSON.stringify(err));
 
@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res) {
   var id = req.params.id;
 
-  Document.findOne({id: id}, function(err, doc) {
+  Document.findOne({id: id, _username: req.user.username}, function(err, doc) {
     if (err) {
       console.error("There was an error finding the docuemnt:", JSON.stringify(err));
 
@@ -55,6 +55,7 @@ router.post('/', function(req, res) {
   var data = req.body;
 
   var doc = new Document({
+    _username: req.user.username,
     id: uuid.v1(),
     data: data
   });
@@ -81,7 +82,7 @@ router.put('/:id', function(req, res) {
   var id = req.params.id;
   var data = req.body;
 
-  Document.findOneAndUpdate({ id: id }, { data: data }, function(err, doc) {
+  Document.findOneAndUpdate({ id: id, _username: req.user.username }, { data: data }, function(err, doc) {
     if (err) {
       console.error("There was an error updating the docuemnt:", JSON.stringify(err));
 
@@ -109,7 +110,7 @@ router.put('/:id', function(req, res) {
 router.delete('/:id', function(req, res) {
   var id = req.params.id;
 
-  Document.findOneAndRemove({ id: id }, function(err, doc) {
+  Document.findOneAndRemove({ id: id, _username: req.user.username }, function(err, doc) {
     if (err) {
       console.error("There was an error deleting the docuemnt:", JSON.stringify(err));
 
